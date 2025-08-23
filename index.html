@@ -69,6 +69,15 @@
     /* 隐藏 Valine 角标 */
     .vpower { display: none !important; }
 
+    /* 访问量样式 */
+    .visitor-count {
+      text-align: center;
+      color: #666;
+      margin: 20px 0 40px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+    }
+
     /* 手机自适应：小屏幕字体缩小 */
     @media (max-width: 576px) {
       .timer b { font-size: 50px; }
@@ -108,6 +117,14 @@
       <div class="col-12 col-md-8 col-lg-6">
         <h2 class="text-center mb-4">Say Something</h2>
         <div id="vcomments"></div>
+        
+        <!-- 访问量统计 -->
+        <div class="visitor-count">
+          <span id="page-views" class="leancloud_visitors" data-flag-title="Steve & Noah's Love Page">
+            <em class="post-meta-item-text">本站访问量 </em>
+            <i class="leancloud-visitors-count">0</i>
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -150,8 +167,8 @@
       appKey: 'A6WF69GhCfLUVtEtCPiE8CKU',
       placeholder: 'Say Something',
       meta: ['nick'],
-      visitor: 'true',
-      highlight: 'false',
+      visitor: true,  // 修正为布尔值true，而非字符串'true'
+      highlight: false,  // 修正为布尔值false
       avatar: 'hide'
     });
   </script>
