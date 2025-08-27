@@ -92,6 +92,11 @@
       text-align: center;
     }
 
+    .timer b {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
     .love {
       color: #ffffff;
       margin: 0 20px;
@@ -146,9 +151,10 @@
     /* 隐藏 Valine 角标 */
     .vpower { display: none !important; }
 
+    /* 桌面版计时器保持原样 */
+
     /* 手机版适配 */
     @media (max-width: 768px) {
-      .timer b { font-size: 50px; }
       .carousel-indicators { bottom: 20px; }
       .indicator { width: 10px; height: 10px; }
       
@@ -159,10 +165,11 @@
       .slide-4 { background-image: url('shouye4mb.jpg'); }
       .slide-5 { background-image: url('shouye5mb.jpg'); }
       
-      /* 改善手机版的背景显示方式 */
+      /* 确保图片完全覆盖，无灰边 */
       .carousel-slide {
         background-size: cover;
         background-position: center center;
+        background-repeat: no-repeat;
       }
       
       /* 调整手机版的内容布局 */
@@ -172,19 +179,25 @@
       
       .hero-box h1 {
         font-size: 2rem;
+        margin-bottom: 1rem;
       }
-    }
-
-    /* 针对超小屏幕的进一步优化 */
-    @media (max-width: 576px) {
-      .timer b { font-size: 40px; }
-      .hero-box h1 { font-size: 1.8rem; }
-      .hero-box { padding: 1.5rem 0.5rem; }
       
-      /* 超小屏幕可以考虑使用 contain 来确保完整显示图片 */
-      .carousel-slide {
-        background-size: contain;
-        background-repeat: no-repeat;
+      /* 手机版整体内容居中调整 */
+      .wrap-son {
+        justify-content: center;
+        align-items: center;
+        padding-top: 0;
+      }
+      
+      /* 手机版计时器 - 让秒自动换行，保持原有对齐 */
+      .mobile-timer {
+        max-width: 90%;
+        margin: 0 auto;
+        line-height: 1.2;
+      }
+      
+      .timer b {
+        font-size: 50px;
       }
     }
   </style>
@@ -215,7 +228,7 @@
         <div class="hero-box">
           <h1>我们相恋了</h1>
           <h3 class="timer mt-4">
-            <div class="d-flex justify-content-center align-items-center gap-2 flex-wrap">
+            <div class="d-flex justify-content-center align-items-center gap-2 flex-wrap mobile-timer">
               <b id="d"></b> 天 
               <b id="h"></b> 时 
               <b id="m"></b> 分 
