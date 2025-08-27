@@ -47,7 +47,7 @@
       opacity: 1;
     }
 
-    /* 默认背景图片 */
+    /* 桌面版背景图片 */
     .slide-1 { background-image: url('shouye.jpg'); }
     .slide-2 { background-image: url('shouye2.jpg'); }
     .slide-3 { background-image: url('shouye3.jpg'); }
@@ -146,11 +146,46 @@
     /* 隐藏 Valine 角标 */
     .vpower { display: none !important; }
 
-    /* 手机自适应：小屏幕字体缩小 */
-    @media (max-width: 576px) {
+    /* 手机版适配 */
+    @media (max-width: 768px) {
       .timer b { font-size: 50px; }
       .carousel-indicators { bottom: 20px; }
       .indicator { width: 10px; height: 10px; }
+      
+      /* 手机版使用专门的竖屏图片 */
+      .slide-1 { background-image: url('shouyemb.jpg'); }
+      .slide-2 { background-image: url('shouye2mb.jpg'); }
+      .slide-3 { background-image: url('shouye3mb.jpg'); }
+      .slide-4 { background-image: url('shouye4mb.jpg'); }
+      .slide-5 { background-image: url('shouye5mb.jpg'); }
+      
+      /* 改善手机版的背景显示方式 */
+      .carousel-slide {
+        background-size: cover;
+        background-position: center center;
+      }
+      
+      /* 调整手机版的内容布局 */
+      .hero-box {
+        padding: 2rem 1rem;
+      }
+      
+      .hero-box h1 {
+        font-size: 2rem;
+      }
+    }
+
+    /* 针对超小屏幕的进一步优化 */
+    @media (max-width: 576px) {
+      .timer b { font-size: 40px; }
+      .hero-box h1 { font-size: 1.8rem; }
+      .hero-box { padding: 1.5rem 0.5rem; }
+      
+      /* 超小屏幕可以考虑使用 contain 来确保完整显示图片 */
+      .carousel-slide {
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
     }
   </style>
 </head>
@@ -209,14 +244,6 @@
     </div>
   </div>
 
-  <!-- 底部 Busuanzi 统计 删除后生效-->
-<!-- <footer class="text-center py-3" style="background:#000; color:#fff; font-size:12px;">
-    <span id="busuanzi_container_site_pv">
-    访问量 <span id="busuanzi_value_site_pv"></span> 次
-   </span>
-  </footer>
--->
-  
   <!-- Bootstrap Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -260,8 +287,15 @@
 
   <!-- 计时器 -->
   <script>
+    // 日期转换函数 - 输入真实日期，自动转换为JS可用格式
+    function createDate(year, month, day, hour = 0, minute = 0, second = 0) {
+      // 将真实月份转换为JS月份（减1）
+      return new Date(year, month - 1, day, hour, minute, second);
+    }
+
     function timer() {
-      var start = new Date(2025, 6, 19, 21, 30, 0);
+      // 🎯 在这里直接写真实日期，比如 2025年7月19日 21:30:00
+      var start = createDate(2025, 7, 19, 21, 30, 0);
       var t = new Date() - start;
 
       var d = Math.floor(t / 1000 / 60 / 60 / 24);
