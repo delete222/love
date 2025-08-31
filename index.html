@@ -151,54 +151,23 @@
     /* 隐藏 Valine 角标 */
     .vpower { display: none !important; }
 
-    /* 桌面版计时器保持原样 */
-
     /* 手机版适配 */
     @media (max-width: 768px) {
       .carousel-indicators { bottom: 20px; }
       .indicator { width: 10px; height: 10px; }
       
-      /* 手机版使用专门的竖屏图片 */
+      /* 手机版专用图片 */
       .slide-1 { background-image: url('shouyemb.jpg'); }
       .slide-2 { background-image: url('shouye2mb.jpg'); }
       .slide-3 { background-image: url('shouye3mb.jpg'); }
       .slide-4 { background-image: url('shouye4mb.jpg'); }
       .slide-5 { background-image: url('shouye5mb.jpg'); }
       
-      /* 确保图片完全覆盖，无灰边 */
-      .carousel-slide {
-        background-size: cover;
-        background-position: center center;
-        background-repeat: no-repeat;
-      }
-      
-      /* 调整手机版的内容布局 */
-      .hero-box {
-        padding: 2rem 1rem;
-      }
-      
-      .hero-box h1 {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-      }
-      
-      /* 手机版整体内容居中调整 */
-      .wrap-son {
-        justify-content: center;
-        align-items: center;
-        padding-top: 0;
-      }
-      
-      /* 手机版计时器 - 让秒自动换行，保持原有对齐 */
-      .mobile-timer {
-        max-width: 90%;
-        margin: 0 auto;
-        line-height: 1.2;
-      }
-      
-      .timer b {
-        font-size: 50px;
-      }
+      .hero-box { padding: 2rem 1rem; }
+      .hero-box h1 { font-size: 2rem; margin-bottom: 1rem; }
+      .wrap-son { justify-content: center; align-items: center; padding-top: 0; }
+      .mobile-timer { max-width: 90%; margin: 0 auto; line-height: 1.2; }
+      .timer b { font-size: 50px; }
     }
   </style>
 </head>
@@ -271,14 +240,10 @@
     const totalSlides = slides.length;
 
     function showSlide(index) {
-      // 移除所有活动状态
       slides.forEach(slide => slide.classList.remove('active'));
       indicators.forEach(indicator => indicator.classList.remove('active'));
-      
-      // 添加新的活动状态
       slides[index].classList.add('active');
       indicators[index].classList.add('active');
-      
       currentSlide = index;
     }
 
@@ -287,27 +252,44 @@
       showSlide(next);
     }
 
-    // 自动轮播，每10秒切换一次
+    function prevSlide() {
+      const prev = (currentSlide - 1 + totalSlides) % totalSlides;
+      showSlide(prev);
+    }
+
+    // 自动轮播
     setInterval(nextSlide, 10000);
 
     // 指示器点击事件
     indicators.forEach((indicator, index) => {
-      indicator.addEventListener('click', () => {
-        showSlide(index);
-      });
+      indicator.addEventListener('click', () => { showSlide(index); });
     });
+
+    // 滑动事件（手机 & PC）
+    let startX = 0, endX = 0;
+    const container = document.querySelector('.carousel-container');
+
+    container.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+    container.addEventListener('touchend', e => { endX = e.changedTouches[0].clientX; handleSwipe(); });
+
+    container.addEventListener('mousedown', e => { startX = e.clientX; });
+    container.addEventListener('mouseup', e => { endX = e.clientX; handleSwipe(); });
+
+    function handleSwipe() {
+      let diff = endX - startX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) { prevSlide(); } else { nextSlide(); }
+      }
+    }
   </script>
 
   <!-- 计时器 -->
   <script>
-    // 日期转换函数 - 输入真实日期，自动转换为JS可用格式
     function createDate(year, month, day, hour = 0, minute = 0, second = 0) {
-      // 将真实月份转换为JS月份（减1）
       return new Date(year, month - 1, day, hour, minute, second);
     }
 
     function timer() {
-      // 🎯 在这里直接写真实日期，比如 2025年7月19日 21:30:00
       var start = createDate(2025, 7, 19, 21, 30, 0);
       var t = new Date() - start;
 
@@ -342,14 +324,8 @@
       avatarForce: true
     });
   </script>
-<!-- 以下代码请放入前端html文件的body内 -->
-  <!-- 
-<script src="https://agi-dev-platform-web.bj.bcebos.com/ai_apaas/embed/output/embedLiteSDK.js?responseExpires=0"></script>
-<script>
-    new EmbedLiteSDK({appId: '6a8e5c2a-340c-47e4-90cc-e5a65563c4eb', code: 'embeddPwb909YZVaoAZaTx4yr'});
-</script>
--->
-  <!-- Busuanzi 统计脚本 -->
+
+  <!-- Busuanzi 统计 -->
   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </body>
 </html>
